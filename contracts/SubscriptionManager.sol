@@ -65,7 +65,7 @@ contract SubscriptionManager is ReentrancyGuard {
     // could make this payable or prefferably part of a subscription that is initalized with constructor.
     // we can call this function in constructor, and then anyone who "creates a subscription" will call subscribe() with input value of the first sub made(0).
     // then deleteSubscription would call unsubscribe
-    function createSubscription(uint256 price) public returns (uint256) {
+    function createSubscription(uint256 price) external returns (uint256) {
         if (subscriptionIdList.length >= i_activeSubscriptionLimit) {
             revert SubscriptionManager__TooManyActiveSubscriptions();
         }
@@ -81,7 +81,7 @@ contract SubscriptionManager is ReentrancyGuard {
         return subId;
     }
 
-    function deleteSubscription(uint256 subId) public {
+    function deleteSubscription(uint256 subId) external {
         if (s_subIdToInfo[subId].subscriptionOwner != msg.sender) {
             revert SubscriptionManager__NotSubscriptionOwner();
         }
@@ -93,7 +93,7 @@ contract SubscriptionManager is ReentrancyGuard {
         subscriptionIdList.pop();
     }
 
-    function subscribe(uint256 subId) public isActiveSubscription(subId) {
+    function subscribe(uint256 subId) external isActiveSubscription(subId) {
         if (s_subIdToInfo[subId].activeUsers.length >= i_activeUserLimit) {
             revert SubscriptionManager__TooManyActiveUsers();
         }
@@ -104,7 +104,7 @@ contract SubscriptionManager is ReentrancyGuard {
         s_subIdToInfo[subId].activeUsers.push(msg.sender);
     }
 
-    function unSubscribe(uint256 subId) public {
+    function unSubscribe(uint256 subId) external {
         if (s_subIdToUserInfo[subId][msg.sender].isSubscribed == false) {
             revert SubscriptionManager__NotSubscribed();
         }
@@ -147,14 +147,14 @@ contract SubscriptionManager is ReentrancyGuard {
         }
     }
 
-    function depositFunds() public payable {
+    function depositFunds() external payable {
         if (msg.value <= 0) {
             revert SubscriptionManager__NoValue();
         }
         s_balances[msg.sender] += msg.value;
     }
 
-    function withdrawFunds(uint256 withdrawAmount) public nonReentrant {
+    function withdrawFunds(uint256 withdrawAmount) external nonReentrant {
         if (withdrawAmount > s_balances[msg.sender]) {
             revert SubscriptionManager__NotEnoughFunds();
         }
