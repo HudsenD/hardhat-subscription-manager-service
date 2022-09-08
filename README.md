@@ -22,4 +22,4 @@ with its users and not sacrifice functionality, however I did not want to comple
 
 ## 🛠 Skills
 
-Solidity, Hardhat, Javascript, Ethers.js, HTML, CSS
+Solidity, Hardhat, Javascript, Ethers.js
