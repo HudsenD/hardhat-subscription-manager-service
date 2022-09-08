@@ -32,7 +32,8 @@ contract SubscriptionManager is ReentrancyGuard {
         bool isSubscribed;
         uint256 listPointer;
     }
-
+    
+    event SubscriptionCreated(uint256 indexed subId, address indexed owner);
     event UserSubscribed(uint256 indexed subId, address indexed user);
     event UserUnsubscribed(uint256 indexed subId, address indexed user);
 
@@ -65,7 +66,7 @@ contract SubscriptionManager is ReentrancyGuard {
     // could make this payable or prefferably part of a subscription that is initalized with constructor.
     // we can call this function in constructor, and then anyone who "creates a subscription" will call subscribe() with input value of the first sub made(0).
     // then deleteSubscription would call unsubscribe
-    function createSubscription(uint256 price) external returns (uint256) {
+    function createSubscription(uint256 price) external {
         if (subscriptionIdList.length >= i_activeSubscriptionLimit) {
             revert SubscriptionManager__TooManyActiveSubscriptions();
         }
@@ -78,7 +79,7 @@ contract SubscriptionManager is ReentrancyGuard {
         newSubscription.subscriptionOwner = msg.sender;
         s_subIdToInfo[subId] = newSubscription;
         subscriptionIdList.push(subId);
-        return subId;
+        emit SubscriptionCreated(subId, msg.sender)
     }
 
     function deleteSubscription(uint256 subId) external {
