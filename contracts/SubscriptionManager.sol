@@ -154,7 +154,7 @@ contract SubscriptionManager is ReentrancyGuard {
         s_balances[msg.sender] += msg.value;
     }
 
-    function withdrawFunds(uint256 withdrawAmount) public payable nonReentrant {
+    function withdrawFunds(uint256 withdrawAmount) public nonReentrant {
         if (withdrawAmount > s_balances[msg.sender]) {
             revert SubscriptionManager__NotEnoughFunds();
         }
