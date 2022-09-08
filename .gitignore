@@ -1,0 +1,21 @@
+node_modules
+.env
+coverage
+coverage.json
+typechain
+typechain-types
+deployments
+.prettierrc
+.prettierignore
+yarn-error.log
+NOTES.md
+contracts/ComplexPractice.sol
+contracts/SimpleSubscriptionManager.sol
+contracts/StorageDesign.sol
+contracts/subscription-payment-manager-service.code-workspace
+contracts/SubscriptionFunder.sol
+deploy/02-deploy-simple-subscription-manager.js
+
+#Hardhat files
+cache
+artifacts
