@@ -102,6 +102,7 @@ contract SubscriptionManager is ReentrancyGuard {
         }
         s_subIdToUserInfo[subId][msg.sender] = UserInfo(true, s_subIdToInfo[subId].activeUsers.length);
         s_subIdToInfo[subId].activeUsers.push(msg.sender);
+        emit UserSubscribed(subId, msg.sender);
     }
 
     function unSubscribe(uint256 subId) external {
@@ -109,7 +110,6 @@ contract SubscriptionManager is ReentrancyGuard {
             revert SubscriptionManager__NotSubscribed();
         }
         _unSubscribe(subId, msg.sender);
-        emit UserSubscribed(subId, msg.sender);
     }
 
     function _unSubscribe(uint256 subId, address user) internal {
